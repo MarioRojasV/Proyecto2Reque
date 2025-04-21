@@ -8,7 +8,7 @@ const Navbar = () => {
       <ul style={styles.links}>
         <li><Link to="/">Inicio</Link></li>
         <li><Link to="/Terrenos">Terrenos</Link></li>
-        <li><Link to="/">Cultivos</Link></li>
+        <li><Link to="/Cultivos">Cultivos</Link></li>
         <li><Link to="/Contacto">Contacto</Link></li>
         <li><Link to="/AcercaDe">Acerca de...</Link></li>
       </ul>

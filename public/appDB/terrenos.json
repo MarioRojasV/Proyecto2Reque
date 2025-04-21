@@ -1,0 +1,137 @@
+{
+    "ultimoID": 3,
+    "terrenos": [
+      {
+        "id": 1,
+        "nombre": "Terreno Norte",
+        "ubicacion": "San Carlos, Copevega, ",
+        "area": "1.5 ha",
+        "estadoCultivo": "en proceso",
+        "cultivoEnProceso": "Maíz",
+        "planSiembraId": "PS123",
+        "estado": {
+          "labranzaRealizada": true,
+          "calAplicada": true,
+          "riegoActivo": true
+        },
+        "labranza": [
+          { "fecha": "2025-03-01", "tipo": "arado" },
+          { "fecha": "2025-03-05", "tipo": "rastra" }
+        ],
+        "cal": [
+          {
+            "fecha": "2025-02-15",
+            "dosis": "1 tonelada/ha",
+            "phPrevio": 4.8,
+            "phObjetivo": 6.0
+          }
+        ],
+        "riego": {
+          "sistema": "aspersión",
+          "frecuenciaDias": 3,
+          "ultimoRiego": "2025-04-10"
+        },
+        "fertilizacion": {
+          "fecha": "2025-04-11",
+          "tipo": "NPK 15-15-15",
+          "dosis": "200 kg/ha",
+          "proximosDias": 90
+        },
+        "historialFertilizaciones": [
+          {
+            "fecha": "2024-11-02",
+            "tipo": "NPK 10-30-10",
+            "dosis": "150 kg/ha"
+          },
+          {
+            "fecha": "2025-01-15",
+            "tipo": "Urea",
+            "dosis": "100 kg/ha"
+          }
+        ],
+        "otrosCuidados": [
+          {
+            "fecha": "2025-03-20",
+            "tipo": "Control de plagas",
+            "descripcion": "Aplicación de insecticida contra gusano cogollero"
+          },
+          {
+            "fecha": "2025-04-05",
+            "tipo": "Deshierbe",
+            "descripcion": "Eliminación manual de malezas"
+          }
+        ],
+        "notas": "Terreno con buen drenaje y fácil acceso para maquinaria."
+      },
+      {
+        "id": 2,
+        "nombre": "Terreno Este",
+        "ubicacion": "San Carlos, Santa Rosa, ",
+        "area": "2.0 ha",
+        "estadoCultivo": "listo para cosechar",
+        "cultivoEnProceso": "Frijol",
+        "planSiembraId": "PS124",
+        "estado": {
+          "labranzaRealizada": true,
+          "calAplicada": false,
+          "riegoActivo": false
+        },
+        "labranza": [
+          { "fecha": "2024-12-10", "tipo": "arado" }
+        ],
+        "cal": [],
+        "riego": {
+          "sistema": "goteo",
+          "frecuenciaDias": 5,
+          "ultimoRiego": "2025-03-20"
+        },
+        "fertilizacion": {
+          "fecha": "2025-01-20",
+          "tipo": "NPK 20-10-10",
+          "dosis": "180 kg/ha",
+          "proximosDias": 120
+        },
+        "historialFertilizaciones": [
+          {
+            "fecha": "2025-01-20",
+            "tipo": "NPK 20-10-10",
+            "dosis": "180 kg/ha"
+          }
+        ],
+        "otrosCuidados": [
+          {
+            "fecha": "2025-02-10",
+            "tipo": "Control de malezas",
+            "descripcion": "Aplicación de herbicida selectivo"
+          }
+        ],
+        "notas": "Listo para cosecha manual durante abril."
+      },
+      {
+        "id": 3,
+        "nombre": "Terreno Sur",
+        "ubicacion": "San Carlos, Copevega, ",
+        "area": "0.8 ha",
+        "estadoCultivo": "sin cultivo",
+        "cultivoEnProceso": "-",
+        "planSiembraId": null,
+        "estado": {
+          "labranzaRealizada": false,
+          "calAplicada": false,
+          "riegoActivo": false
+        },
+        "labranza": [],
+        "cal": [],
+        "riego": {
+          "sistema": "ninguno",
+          "frecuenciaDias": null,
+          "ultimoRiego": null
+        },
+        "fertilizacion": null,
+        "historialFertilizaciones": [],
+        "otrosCuidados": [],
+        "notas": "Disponible para asignar nuevo plan de siembra."
+      }
+    ]
+  }
+  

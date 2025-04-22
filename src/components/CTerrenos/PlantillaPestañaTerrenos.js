@@ -4,9 +4,7 @@ import BtnRectangRedond from '../BotonRectangRedondeado';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function PlantillaTerreno({ modo, terrenos, ultimoID, llenarTerrenos, llenarID}) {
-  console.log("Modo actual:", modo);
 
-  console.log('Terrenos recibidos:', terrenos);
   const estadoInicialTerreno = {
     nombre: '',
     ubicacion: '',
@@ -105,9 +103,9 @@ export default function PlantillaTerreno({ modo, terrenos, ultimoID, llenarTerre
         <Linea/>
           <div style={styles.horizontalContainer}>
             <div style={styles.verticalContainer}>
-              <label className="block text-gray-700 font-bold">Nombre del terreno:</label>
-              <label className="block text-gray-700 font-bold">Señas ubicación:</label>
-              <label className="block text-gray-700 font-bold">Área:</label>
+              <label className="block text-gray-700 font-bold">🏷️Nombre del terreno:</label>
+              <label className="block text-gray-700 font-bold">📍Señas ubicación:</label>
+              <label className="block text-gray-700 font-bold">📏Área m²:</label>
               
             </div>
 
@@ -125,10 +123,10 @@ export default function PlantillaTerreno({ modo, terrenos, ultimoID, llenarTerre
                   placeholder="Provincia, Cantón, Distrito"
               />
                 <input style={styles.inputDataSize}
-                  type="text"
+                  type="number"
                   value={terreno.area}
                   onChange={(e) => setTerreno(prev => ({...prev, area: e.target.value}))}
-                  placeholder="Ej: 500 m²"
+                  placeholder="Ej: 500"
               />
             </div>
           </div>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PlantillaTerreno from '../components/CTerrenos/PlantillaPestañaTerrenos';
 import TablaTerrenos from '../components/TablaTerrenos';
-import Procesos from './Procesos';
 
 const Terrenos = ({terrenos, llenarTerrenos, llenarID}) => {
 
@@ -11,7 +9,6 @@ const Terrenos = ({terrenos, llenarTerrenos, llenarID}) => {
 
 
 
-    const [modo, setModo] = useState("crear");
     const [terrenoSeleccionado, setTerrenoSeleccionado] = useState(null);
     const navigate = useNavigate();
 

@@ -25,7 +25,7 @@ const TablaTerrenos = ({ terrenos = [], onSeleccionarTerreno }) => {
         <table style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead style={{ backgroundColor: "#cbd5e0", color: "#2f855a" }}>
             <tr>
-              {["", "ID", "Nombre", "Área", "Estado", "Cultivo", "Plan Siembra"].map((h, i) => (
+              {["", "ID", "Nombre", "Área m²", "Estado", "Cultivo", "Plan Siembra"].map((h, i) => (
                 <th
                   key={i}
                   style={{

@@ -6,11 +6,11 @@ const Navbar = () => {
     <nav style={styles.nav}>
       <Link to="/" style={styles.logo}>CultivaTEC</Link>
       <ul style={styles.links}>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/Terrenos">Terrenos</Link></li>
-        <li><Link to="/Cultivos">Cultivos</Link></li>
-        <li><Link to="/Contacto">Contacto</Link></li>
-        <li><Link to="/AcercaDe">Acerca de...</Link></li>
+        <li><Link to="/" style={styles.link}>Inicio</Link></li>
+        <li><Link to="/Terrenos" style={styles.link}>Terrenos</Link></li>
+        <li><Link to="/Cultivos" style={styles.link}>Cultivos</Link></li>
+        <li><Link to="/Contacto" style={styles.link}>Contacto</Link></li>
+        <li><Link to="/AcercaDe" style={styles.link}>Acerca de...</Link></li>
       </ul>
     </nav>
   );
@@ -30,14 +30,19 @@ const styles = {
     fontWeight: 'bold',
     color: 'white',
     textDecoration: 'none',
-    fontFamily: 'Segoe UI, sans-serif', // o cualquier fuente moderna
+    fontFamily: 'Segoe UI, sans-serif',
   },
   links: {
     listStyle: 'none',
     display: 'flex',
     gap: '2.5rem',
-    fontColor: 'white',
     margin: 0,
+  },
+  link: {
+    color: 'white',
+    textDecoration: 'none',
+    fontSize: '1.1rem',
+    fontFamily: 'Segoe UI, sans-serif',
   }
 };
 

@@ -18,14 +18,13 @@
           { "fecha": "2025-03-01", "tipo": "arado" },
           { "fecha": "2025-03-05", "tipo": "rastra" }
         ],
-        "cal": [
-          {
-            "fecha": "2025-02-15",
-            "dosis": "1 tonelada/ha",
-            "phPrevio": 4.8,
-            "phObjetivo": 6.0
-          }
-        ],
+        "cal": {
+          "fecha": "2025-02-15",
+          "dosis": "1 tonelada/ha",
+          "phPrevio": 4.8,
+          "phObjetivo": 6.0
+        }
+        ,
         "riego": {
           "sistema": "aspersión",
           "frecuenciaDias": 3,
@@ -79,7 +78,12 @@
         "labranza": [
           { "fecha": "2024-12-10", "tipo": "arado" }
         ],
-        "cal": [],
+        "cal": {
+          "fecha": "",
+          "dosis": "",
+          "phPrevio": 0,
+          "phObjetivo": 0
+        },
         "riego": {
           "sistema": "goteo",
           "frecuenciaDias": 5,
@@ -121,7 +125,12 @@
           "riegoActivo": false
         },
         "labranza": [],
-        "cal": [],
+        "cal": {
+          "fecha": "",
+          "dosis": "",
+          "phPrevio": 0,
+          "phObjetivo": 0
+        },
         "riego": {
           "sistema": "ninguno",
           "frecuenciaDias": null,

@@ -64,6 +64,28 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
       <div style={styles.contenedorHorizontal}>
         <div style={styles.square}>
           <div style={styles.simboloCirculo}>
+            <span style={{ fontSize: '3.5rem', color: getColor(terreno.estadoCultivo) }}>●</span> Siembra
+          </div>
+          <div style={styles.conteneVertical}>
+            Estado:
+            <br></br>
+            <div style={styles.contenedorEstado}>{terreno.estadoCultivo}</div>
+          </div>
+          <div style={styles.conteneVertical}>
+            Cultivo:
+            <br></br>
+            {terreno.cultivoEnProceso}
+          </div>
+          Aquí van los procesos 🌱
+        </div>
+        <div style={styles.square}>
+          Fertilización
+        </div>
+      </div>
+
+      <div style={styles.contenedorHorizontal}>
+        <div style={styles.square}>
+          <div style={styles.simboloCirculo}>
             Cal
           </div>
           <div style={styles.conteneVertical}>
@@ -82,7 +104,20 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
           </div>
         </div>
         <div style={styles.square}>
-          Aquí van los procesos 🌱
+        <div style={styles.simboloCirculo}>
+            Riego
+          </div>
+          <div style={styles.conteneVertical}>
+            Sistema:
+            <br></br><div>{terreno.riego["sistema"]}</div>
+            <br></br>
+            Frecuencia:
+            <br></br><div>Cada <span style={{ color: 'blue' }}>{terreno.riego["frecuenciaDias"]}</span> días</div>
+          </div>
+          <div style={styles.conteneVertical}>
+            Último reigo:
+            <br></br><div>{terreno.riego["ultimoRiego"]}</div>
+          </div>
         </div>
         <div style={styles.square}>
           Aquí van los procesos 🌱
@@ -91,20 +126,19 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
 
       <div style={styles.contenedorHorizontal}>
         <div style={styles.square}>
-          <div style={{...styles.simboloCirculo, fontSize: '3.5rem', color:getColor(terreno.estadoCultivo)}}>
-            ●
-          </div>
-          <div style={styles.conteneVertical}>
-            Cultivo:
-            <br></br>
-            {terreno.cultivoEnProceso}
+          <div style={styles.simboloCirculo}>
+            Otros <br></br>cuidados
           </div>
           Aquí van los procesos 🌱
         </div>
         <div style={styles.square}>
-          Aquí van los procesos 🌱
+          <div style={styles.simboloCirculo}>
+            Notas
+          </div>
+          <br></br><div style={styles.contenedorNotas}>{terreno.notas}</div>
         </div>
       </div>
+
     </div>
   );
 };
@@ -123,7 +157,7 @@ const styles = {
   },
   square: {
     width: '100%',
-    height: '300px',
+    // height: '300px',  <- QUITA esta línea
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     borderRadius: '12px',
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
@@ -132,7 +166,9 @@ const styles = {
     alignItems: 'center',
     fontSize: '1.5rem',
     fontWeight: 'bold',
+    minHeight: '300px',
     minWidth: '400px',
+    padding: '1rem', // opcional, para que tenga espacio interno
   },
   contenedorHorizontal: {
     display: 'flex',
@@ -159,6 +195,18 @@ const styles = {
   simboloCirculo: {
     fontSize: '2.5rem',
     marginBottom: '180px',
+  },
+  contenedorNotas: {
+    display: 'flex',
+    flexDirection: 'column',
+    fontSize: '1.5rem',
+    width: '540px',
+  },
+  contenedorEstado: {
+    display: 'flex',
+    flexDirection: 'column',
+    fontSize: '1.5rem',
+    width: '105px',
   },
 };
 

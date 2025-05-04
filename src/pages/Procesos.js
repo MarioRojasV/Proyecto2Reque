@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BtnRectangRedond from '../components/BotonRectangRedondeado';
 import { useNavigate, useParams } from 'react-router-dom';
+import TablaProcesos from '../components/TablaDatosProcesos';
 
 const Procesos = ({terrenos, llenarTerrenos}) => {
 
@@ -14,7 +15,8 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
     cultivoEnProceso: '',
     planSiembraId: '',
     estado: '',
-    labranza: [],
+    fechaArado: '',
+    fechaRastra: '',
     cal: {},
     riego: {},
     fertilizacion: {},
@@ -79,7 +81,10 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
           Aquí van los procesos 🌱
         </div>
         <div style={styles.square}>
-          Fertilización
+          <div style={{...styles.simboloCirculo, fontSize:"2rem"}}>
+            Fertilización
+          </div>
+          <TablaProcesos datos={terreno.historialFertilizaciones} columnaExtra="Dosis" campoExtra="dosis"/>
         </div>
       </div>
 
@@ -103,8 +108,9 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
             <br></br><div>{terreno.cal["phObjetivo"]}</div>
           </div>
         </div>
+        
         <div style={styles.square}>
-        <div style={styles.simboloCirculo}>
+          <div style={styles.simboloCirculo}>
             Riego
           </div>
           <div style={styles.conteneVertical}>
@@ -119,8 +125,18 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
             <br></br><div>{terreno.riego["ultimoRiego"]}</div>
           </div>
         </div>
+
         <div style={styles.square}>
-          Aquí van los procesos 🌱
+          <div style={{...styles.simboloCirculo, fontSize:"2rem"}}>
+            Labranza
+          </div>
+          <div style={styles.conteneVertical}>
+            Arado:
+            <br></br><div>{terreno.fechaArado}</div>
+            <br></br>
+            Rastra:
+            <br></br><div>{terreno.fechaRastra}</div>
+          </div>
         </div>
       </div>
 
@@ -129,7 +145,7 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
           <div style={styles.simboloCirculo}>
             Otros <br></br>cuidados
           </div>
-          Aquí van los procesos 🌱
+          <TablaProcesos datos={terreno.otrosCuidados} columnaExtra="Descripción" campoExtra="descripcion"/>
         </div>
         <div style={styles.square}>
           <div style={styles.simboloCirculo}>

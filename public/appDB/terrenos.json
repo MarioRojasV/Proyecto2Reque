@@ -7,7 +7,7 @@
         "ubicacion": "San Carlos, Copevega, ",
         "area": 1821,
         "estadoCultivo": "en proceso",
-        "cultivoEnProceso": "Maíz",
+        "cultivoEnProceso": "Tomate",
         "planSiembraId": "PS123",
         "estado": {
           "labranzaRealizada": true,
@@ -112,9 +112,9 @@
         "nombre": "Terreno Sur",
         "ubicacion": "San Carlos, Copevega, ",
         "area": 521,
-        "estadoCultivo": "sin cultivo",
-        "cultivoEnProceso": "-",
-        "planSiembraId": null,
+        "estadoCultivo": "en proceso",
+        "cultivoEnProceso": "Zanahoria",
+        "planSiembraId": "PS125",
         "estado": {
           "labranzaRealizada": false,
           "calAplicada": false,

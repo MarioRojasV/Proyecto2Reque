@@ -1,0 +1,25 @@
+{
+    "siembras": [
+      {
+        "producto": "Tomate",
+        "terreno": "Terreno Norte",
+        "fechaInicio": "01/05/2025",
+        "fechaFin": "01/07/2025",
+        "controles": [
+          { "tipo": "Riego", "fecha": "02/05/2025" },
+          { "tipo": "Fertilización", "fecha": "05/05/2025" }
+        ]
+      },
+      {
+        "producto": "Zanahoria",
+        "terreno": "Terreno Sur",
+        "fechaInicio": "15/05/2025",
+        "fechaFin": "30/07/2025",
+        "controles": [
+        { "tipo": "Abono", "fecha": "16/05/2025" },
+        { "tipo": "Riego", "fecha": "20/05/2025" }
+        ]
+      }
+    ]
+  }
+  

@@ -17,7 +17,8 @@ export default function PlantillaTerreno({ modo, terrenos, ultimoID, llenarTerre
       calAplicada: false,
       riegoActivo: false
     },
-    labranza: [],
+    fechaArado: "-",
+    fechaRastra: "-",
     cal: [],
     riego: {
       sistema: 'ninguno',

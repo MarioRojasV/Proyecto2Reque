@@ -14,18 +14,15 @@
           "calAplicada": true,
           "riegoActivo": true
         },
-        "labranza": [
-          { "fecha": "2025-03-01", "tipo": "arado" },
-          { "fecha": "2025-03-05", "tipo": "rastra" }
-        ],
-        "cal": [
-          {
-            "fecha": "2025-02-15",
-            "dosis": "1 tonelada/ha",
-            "phPrevio": 4.8,
-            "phObjetivo": 6.0
-          }
-        ],
+        "fechaArado": "2025-03-01",
+        "fechaRastra": "2025-03-05",
+        "cal": {
+          "fecha": "2025-02-15",
+          "dosis": "1 tonelada/ha",
+          "phPrevio": 4.8,
+          "phObjetivo": 6.0
+        }
+        ,
         "riego": {
           "sistema": "aspersión",
           "frecuenciaDias": 3,
@@ -76,10 +73,14 @@
           "calAplicada": false,
           "riegoActivo": false
         },
-        "labranza": [
-          { "fecha": "2024-12-10", "tipo": "arado" }
-        ],
-        "cal": [],
+        "fechaArado": "2025-03-01",
+        "fechaRastra": "2025-03-05",
+        "cal": {
+          "fecha": "",
+          "dosis": "",
+          "phPrevio": 0,
+          "phObjetivo": 0
+        },
         "riego": {
           "sistema": "goteo",
           "frecuenciaDias": 5,
@@ -120,8 +121,14 @@
           "calAplicada": false,
           "riegoActivo": false
         },
-        "labranza": [],
-        "cal": [],
+        "fechaArado": "-",
+        "fechaRastra": "-",
+        "cal": {
+          "fecha": "",
+          "dosis": "",
+          "phPrevio": 0,
+          "phObjetivo": 0
+        },
         "riego": {
           "sistema": "ninguno",
           "frecuenciaDias": null,

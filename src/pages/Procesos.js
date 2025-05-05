@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import BtnRectangRedond from '../components/BotonRectangRedondeado';
 import { useNavigate, useParams } from 'react-router-dom';
 import TablaProcesos from '../components/TablaDatosProcesos';
+import CuadroSeleccionable from '../components/CuadroSeleccionable';
 
 const Procesos = ({terrenos, llenarTerrenos}) => {
 
   
   const {id} = useParams();
-  const [terreno, setTerreno] = useState({id: '',
+  const navigate = useNavigate();
+  const [terreno, setTerreno] = useState({
+    id: '',
     nombre: '',
     ubicacion: '',
     area: '',
@@ -64,7 +67,7 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
       </div>
 
       <div style={styles.contenedorHorizontal}>
-        <div style={styles.square}>
+        <CuadroSeleccionable baseStyle={styles.square}>
           <div style={styles.simboloCirculo}>
             <span style={{ fontSize: '3.5rem', color: getColor(terreno.estadoCultivo) }}>●</span> Siembra
           </div>
@@ -79,17 +82,18 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
             {terreno.cultivoEnProceso}
           </div>
           Aquí van los procesos 🌱
-        </div>
-        <div style={styles.square}>
+        </CuadroSeleccionable>
+
+        <CuadroSeleccionable baseStyle={styles.square} onClick={() => {navigate(`/Terrenos/Procesos/AgregarProcesosTabla/${terreno.id}/historialFertilizaciones`);}}>
           <div style={{...styles.simboloCirculo, fontSize:"2rem"}}>
             Fertilización
           </div>
-          <TablaProcesos datos={terreno.historialFertilizaciones} columnaExtra="Dosis" campoExtra="dosis"/>
-        </div>
+          <TablaProcesos datos={terreno.historialFertilizaciones} columnaExtra="Dosis" campoExtra="dosis" anchoTabla='500px' altoTabla='300px'/>
+        </CuadroSeleccionable>
       </div>
 
       <div style={styles.contenedorHorizontal}>
-        <div style={styles.square}>
+        <CuadroSeleccionable baseStyle={styles.square} onClick={() => navigate(`/Terrenos/Procesos/EditarProceso/${terreno.id}/cal`)}>
           <div style={styles.simboloCirculo}>
             Cal
           </div>
@@ -107,9 +111,9 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
             pH meta:
             <br></br><div>{terreno.cal["phObjetivo"]}</div>
           </div>
-        </div>
+        </CuadroSeleccionable>
         
-        <div style={styles.square}>
+        <CuadroSeleccionable baseStyle={styles.square} onClick={() => navigate(`/Terrenos/Procesos/EditarProceso/${terreno.id}/riego`)}>
           <div style={styles.simboloCirculo}>
             Riego
           </div>
@@ -121,12 +125,12 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
             <br></br><div>Cada <span style={{ color: 'blue' }}>{terreno.riego["frecuenciaDias"]}</span> días</div>
           </div>
           <div style={styles.conteneVertical}>
-            Último reigo:
+            Último riego:
             <br></br><div>{terreno.riego["ultimoRiego"]}</div>
           </div>
-        </div>
+        </CuadroSeleccionable>
 
-        <div style={styles.square}>
+        <CuadroSeleccionable baseStyle={styles.square} onClick={() => navigate(`/Terrenos/Procesos/EditarProceso/${terreno.id}/labranza`)}>
           <div style={{...styles.simboloCirculo, fontSize:"2rem"}}>
             Labranza
           </div>
@@ -137,22 +141,22 @@ const Procesos = ({terrenos, llenarTerrenos}) => {
             Rastra:
             <br></br><div>{terreno.fechaRastra}</div>
           </div>
-        </div>
+        </CuadroSeleccionable>
       </div>
 
       <div style={styles.contenedorHorizontal}>
-        <div style={styles.square}>
+        <CuadroSeleccionable baseStyle={styles.square} onClick={() => {navigate(`/Terrenos/Procesos/AgregarProcesosTabla/${terreno.id}/otrosCuidados`);}}>
           <div style={styles.simboloCirculo}>
             Otros <br></br>cuidados
           </div>
-          <TablaProcesos datos={terreno.otrosCuidados} columnaExtra="Descripción" campoExtra="descripcion"/>
-        </div>
-        <div style={styles.square}>
+          <TablaProcesos datos={terreno.otrosCuidados} columnaExtra="Descripción" campoExtra="descripcion" anchoTabla='500px' altoTabla='300px'/>
+        </CuadroSeleccionable>
+        <CuadroSeleccionable baseStyle={styles.square} onClick={() => navigate(`/Terrenos/Procesos/EditarProceso/${terreno.id}/notas`)}>
           <div style={styles.simboloCirculo}>
             Notas
           </div>
           <br></br><div style={styles.contenedorNotas}>{terreno.notas}</div>
-        </div>
+        </CuadroSeleccionable>
       </div>
 
     </div>

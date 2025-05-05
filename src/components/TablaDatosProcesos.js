@@ -1,8 +1,18 @@
 import React from 'react';
 
-const TablaProcesos = ({datos, columnaExtra, campoExtra}) => {
+const TablaProcesos = ({datos, columnaExtra, campoExtra, anchoTabla, altoTabla}) => {
+
+    const estiloDivTabla= {
+        width: anchoTabla,
+        maxHeight: altoTabla,
+        overflow: 'auto',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        fontSize: '1rem'
+    };
+
     return (
-        <div style={styles.estiloDivTabla}>
+        <div style={estiloDivTabla}>
             <table style={styles.estiloTabla}>
                 <thead>
                     <tr>
@@ -26,16 +36,9 @@ const TablaProcesos = ({datos, columnaExtra, campoExtra}) => {
 };
 
 const styles = {
-    estiloDivTabla: {
-        width: '500px',
-        maxHeight: '300px',
-        overflow: 'auto',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-        fontSize: '1rem'
-    },
     estiloTabla: {
-        minWidth: '600px',
+        minWidth: '100%',
+        maxHeight: '150px',
         borderCollapse: 'colapse',
     },
     estiloEncabezados: {
@@ -45,6 +48,7 @@ const styles = {
         textAlign: 'left',
     },
     estiloFilasInfo: {
+        minWidth: '100px',
         border: '1px solid #ddd',
         padding: '8px',
     },

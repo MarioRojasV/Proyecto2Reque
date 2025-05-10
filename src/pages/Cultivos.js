@@ -5,15 +5,30 @@ import "react-datepicker/dist/react-datepicker.css";
 const Cultivos = () => {
   const [productos, setProductos] = useState(() => {
     const productosGuardados = localStorage.getItem('productos');
-    return productosGuardados ? JSON.parse(productosGuardados) : ["Tomate", "Lechuga", "Zanahoria"];
+    try {
+      const parsed = JSON.parse(productosGuardados);
+      if (Array.isArray(parsed) && parsed.every(p => typeof p === 'object' && p.nombre)) {
+        return parsed;
+      }
+    } catch (e) {}
+    return [
+      { nombre: "Tomate", siembra: "Febrero - Abril", cosecha: "Mayo - Julio", epocaIdeal: "Primavera" },
+      { nombre: "Lechuga", siembra: "Enero - Marzo", cosecha: "Marzo - Mayo", epocaIdeal: "Invierno" },
+      { nombre: "Zanahoria", siembra: "Febrero - Mayo", cosecha: "Junio - Agosto", epocaIdeal: "Primavera" }
+    ];
   });
+
   const [terrenos, setTerrenos] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState("");
   const [terrenoSeleccionado, setTerrenoSeleccionado] = useState("");
   const [siembras, setSiembras] = useState([]);
+  const [lotes, setLotes] = useState([]);
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFin, setFechaFin] = useState(null);
   const [nuevoProducto, setNuevoProducto] = useState("");
+  const [nuevaSiembra, setNuevaSiembra] = useState("");
+  const [nuevaCosecha, setNuevaCosecha] = useState("");
+  const [nuevaEpoca, setNuevaEpoca] = useState("");
   const [error, setError] = useState("");
   const [nuevoControl, setNuevoControl] = useState("");
   const [fechaControl, setFechaControl] = useState(null);
@@ -23,11 +38,8 @@ const Cultivos = () => {
   useEffect(() => {
     fetch('/appDB/terrenos.json')
       .then(res => res.json())
-      .then(data => {
-        const nombresTerrenos = data.terrenos.map(terreno => terreno.nombre);
-        setTerrenos(nombresTerrenos);
-      })
-      .catch(err => console.error("Error al cargar los terrenos:", err));
+      .then(data => setTerrenos(data.terrenos.map(t => t.nombre)))
+      .catch(err => console.error("Error al cargar terrenos:", err));
   }, []);
 
   useEffect(() => {
@@ -37,29 +49,25 @@ const Cultivos = () => {
       .catch(err => console.error("Error al cargar cultivos:", err));
   }, []);
 
-  const handleSeleccionProducto = (event) => {
-    setProductoSeleccionado(event.target.value);
-  };
-
-  const handleSeleccionTerreno = (event) => {
-    setTerrenoSeleccionado(event.target.value);
-  };
-
   const agregarSiembra = () => {
     if (!productoSeleccionado || !terrenoSeleccionado || !fechaInicio || !fechaFin) {
       setError("Por favor, selecciona un producto, un terreno y ambas fechas.");
       return;
     }
 
-    const nuevaSiembra = {
+    const producto = productos.find(p => p.nombre === productoSeleccionado);
+    const nuevaSiembraObj = {
       producto: productoSeleccionado,
       terreno: terrenoSeleccionado,
       fechaInicio: fechaInicio.toLocaleDateString(),
       fechaFin: fechaFin.toLocaleDateString(),
+      siembra: producto?.siembra || "No definido",
+      cosecha: producto?.cosecha || "No definido",
+      epocaIdeal: producto?.epocaIdeal || "No definida",
       controles: []
     };
 
-    setSiembras([...siembras, nuevaSiembra]);
+    setSiembras([...siembras, nuevaSiembraObj]);
     setProductoSeleccionado("");
     setTerrenoSeleccionado("");
     setFechaInicio(null);
@@ -67,18 +75,26 @@ const Cultivos = () => {
     setError("");
   };
 
-  const eliminarSiembra = (index) => {
-    setSiembras(siembras.filter((_, i) => i !== index));
-  };
-
   const agregarNuevoProducto = () => {
-    if (nuevoProducto.trim() === "") return;
+    if (!nuevoProducto || !nuevaSiembra || !nuevaCosecha || !nuevaEpoca) return;
 
-    const productosActualizados = [...productos, nuevoProducto.trim()];
+    const nuevoObj = {
+      nombre: nuevoProducto.trim(),
+      siembra: nuevaSiembra.trim(),
+      cosecha: nuevaCosecha.trim(),
+      epocaIdeal: nuevaEpoca.trim()
+    };
+
+    const productosActualizados = [...productos, nuevoObj];
     setProductos(productosActualizados);
     localStorage.setItem('productos', JSON.stringify(productosActualizados));
-    setNuevoProducto("");
+
+    setNuevoProducto(""); setNuevaSiembra(""); setNuevaCosecha(""); setNuevaEpoca("");
     setMostrarAgregarProducto(false);
+  };
+
+  const eliminarSiembra = (index) => {
+    setSiembras(siembras.filter((_, i) => i !== index));
   };
 
   const agregarControl = (index) => {
@@ -89,230 +105,103 @@ const Cultivos = () => {
       fecha: fechaControl.toLocaleDateString()
     });
     setSiembras(nuevasSiembras);
-    setNuevoControl("");
-    setFechaControl(null);
+    setNuevoControl(""); setFechaControl(null);
   };
 
-  const styles = {
-    appContainer: {
-      fontFamily: 'Arial, sans-serif',
-      padding: '20px',
-      backgroundColor: '#f2f8f2',
-      minHeight: '100vh'
-    },
-    header: {
-      textAlign: 'center',
-      color: '#2e7d32',
-      marginBottom: '30px'
-    },
-    errorMessage: {
-      color: '#d32f2f',
-      marginBottom: '20px',
-      textAlign: 'center'
-    },
-    formContainer: {
-      backgroundColor: '#ffffff',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-      marginBottom: '30px'
-    },
-    selectContainer: {
-      marginBottom: '20px'
-    },
-    inputField: {
-      width: '100%',
-      padding: '8px',
-      borderRadius: '4px',
-      border: '1px solid #ccc',
-      marginTop: '5px',
-      backgroundColor: '#e8f5e9'
-    },
-    dateContainer: {
-      display: 'flex',
-      gap: '20px',
-      marginBottom: '20px'
-    },
-    submitBtn: {
-      width: '100%',
-      padding: '10px',
-      backgroundColor: '#43a047',
-      color: 'white',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer'
-    },
-    siembrasHeader: {
-      textAlign: 'center',
-      color: '#2e7d32',
-      marginBottom: '10px'
-    },
-    siembrasList: {
-      listStyle: 'none',
-      padding: '0'
-    },
-    siembraItem: {
-      backgroundColor: '#ffffff',
-      padding: '10px',
-      marginBottom: '20px',
-      borderRadius: '4px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    },
-    deleteBtn: {
-      backgroundColor: '#e53935',
-      color: 'white',
-      border: 'none',
-      padding: '6px 12px',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      float: 'right'
-    },
-    controlList: {
-      marginTop: '10px',
-      backgroundColor: '#f1f8e9',
-      padding: '10px',
-      borderRadius: '4px'
-    },
-    miniButton: {
-      backgroundColor: '#43a047',
-      border: 'none',
-      borderRadius: '4px',
-      padding: '4px 14px',
-      fontSize: '12px',
-      cursor: 'pointer',
-      marginTop: '5px',
-      color: 'white'
-    }
+  const generarLoteId = () => {
+  const total = lotes.length + 1;
+  return String(total).padStart(9, '0'); // 000000001, 000000002, etc.
+};
+
+const terminarCosecha = (index) => {
+  const siembra = siembras[index];
+  const calidad = prompt("Ingrese la calidad de la cosecha:");
+  const comprador = prompt("Ingrese el nombre del comprador (opcional):");
+
+  if (!calidad) {
+    alert("Debe ingresar la calidad.");
+    return;
+  }
+
+  const nuevoLote = {
+    ...siembra,
+    loteId: generarLoteId(),
+    calidad,
+    comprador: comprador || "No definido"
   };
+
+  const nuevasSiembras = siembras.filter((_, i) => i !== index);
+  setSiembras(nuevasSiembras);
+  setLotes([...lotes, nuevoLote]);
+};
 
   return (
-    <div style={styles.appContainer}>
-      <h1 style={styles.header}>Programación de Siembras</h1>
+    <div style={{ padding: '20px', fontFamily: 'Arial', backgroundColor: '#f2f8f2' }}>
+      <h1 style={{ textAlign: 'center', color: '#2e7d32' }}>Programación de Siembras</h1>
 
-      {error && <div style={styles.errorMessage}>{error}</div>}
-
-      <button
-        onClick={() => setMostrarFormulario(!mostrarFormulario)}
-        style={{ ...styles.submitBtn, marginBottom: '20px', backgroundColor: '#2e7d32' }}
-      >
+      <button onClick={() => setMostrarFormulario(!mostrarFormulario)} style={{ backgroundColor: '#2e7d32', color: 'white', padding: '10px', marginBottom: '20px', borderRadius: '4px', border: 'none' }}>
         {mostrarFormulario ? "Cerrar formulario" : "Programar nuevo cultivo"}
       </button>
 
       {mostrarFormulario && (
-        <div style={styles.formContainer}>
-          <div style={styles.selectContainer}>
-            <label>Selecciona el producto:</label>
-            <select value={productoSeleccionado} onChange={handleSeleccionProducto} style={styles.inputField}>
-              <option value="">--Elige un producto--</option>
-              {productos.map((producto, index) => (
-                <option key={index} value={producto}>{producto}</option>
-              ))}
-            </select>
+        <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', marginBottom: '30px' }}>
+          <select value={productoSeleccionado} onChange={(e) => setProductoSeleccionado(e.target.value)} style={{ width: '100%', padding: '8px', marginBottom: '10px' }}>
+            <option value="">--Elige un producto--</option>
+            {productos.map((producto, i) => <option key={i} value={producto.nombre}>{producto.nombre}</option>)}
+          </select>
 
-            <button
-              onClick={() => setMostrarAgregarProducto(!mostrarAgregarProducto)}
-              style={styles.miniButton}
-            >
-              {mostrarAgregarProducto ? "Cancelar" : "Agregar nuevo producto"}
-            </button>
+          <button onClick={() => setMostrarAgregarProducto(!mostrarAgregarProducto)} style={{ marginBottom: '10px', backgroundColor: '#388e3c', color: 'white', border: 'none', borderRadius: '4px', padding: '8px' }}>
+            {mostrarAgregarProducto ? "Cancelar" : "Agregar nuevo producto"}
+          </button>
 
-            {mostrarAgregarProducto && (
-              <div style={{ marginTop: '10px' }}>
-                <input
-                  type="text"
-                  value={nuevoProducto}
-                  onChange={(e) => setNuevoProducto(e.target.value)}
-                  placeholder="Nuevo producto"
-                  style={styles.inputField}
-                />
-                <button
-                  onClick={agregarNuevoProducto}
-                  style={{ ...styles.submitBtn, marginTop: '10px', backgroundColor: '#388e3c' }}
-                >
-                  Guardar Producto
-                </button>
-              </div>
-            )}
-          </div>
-
-          <div style={styles.selectContainer}>
-            <label>Selecciona el terreno:</label>
-            <select value={terrenoSeleccionado} onChange={handleSeleccionTerreno} style={styles.inputField}>
-              <option value="">--Elige un terreno--</option>
-              {terrenos.map((terreno, index) => (
-                <option key={index} value={terreno}>{terreno}</option>
-              ))}
-            </select>
-          </div>
-
-          <div style={styles.dateContainer}>
+          {mostrarAgregarProducto && (
             <div>
-              <label>Fecha de inicio:</label>
-              <DatePicker
-                selected={fechaInicio}
-                onChange={date => setFechaInicio(date)}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Inicio del ciclo de siembra"
-                className="input-field"
-              />
+              <input type="text" placeholder="Nombre" value={nuevoProducto} onChange={(e) => setNuevoProducto(e.target.value)} style={{ width: '100%', marginBottom: '5px' }} />
+              <input type="text" placeholder="Siembra" value={nuevaSiembra} onChange={(e) => setNuevaSiembra(e.target.value)} style={{ width: '100%', marginBottom: '5px' }} />
+              <input type="text" placeholder="Cosecha" value={nuevaCosecha} onChange={(e) => setNuevaCosecha(e.target.value)} style={{ width: '100%', marginBottom: '5px' }} />
+              <input type="text" placeholder="Época Ideal" value={nuevaEpoca} onChange={(e) => setNuevaEpoca(e.target.value)} style={{ width: '100%', marginBottom: '10px' }} />
+              <button onClick={agregarNuevoProducto} style={{ backgroundColor: '#43a047', color: 'white', border: 'none', borderRadius: '4px', padding: '8px', width: '100%' }}>Guardar Producto</button>
             </div>
-            <div>
-              <label>Fecha de fin:</label>
-              <DatePicker
-                selected={fechaFin}
-                onChange={date => setFechaFin(date)}
-                dateFormat="dd/MM/yyyy"
-                placeholderText="Fin del ciclo de siembra"
-                className="input-field"
-              />
-            </div>
+          )}
+
+          <select value={terrenoSeleccionado} onChange={(e) => setTerrenoSeleccionado(e.target.value)} style={{ width: '100%', padding: '8px', marginBottom: '10px' }}>
+            <option value="">--Elige un terreno--</option>
+            {terrenos.map((terreno, i) => <option key={i} value={terreno}>{terreno}</option>)}
+          </select>
+
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+            <DatePicker selected={fechaInicio} onChange={(date) => setFechaInicio(date)} dateFormat="dd/MM/yyyy" placeholderText="Inicio" />
+            <DatePicker selected={fechaFin} onChange={(date) => setFechaFin(date)} dateFormat="dd/MM/yyyy" placeholderText="Fin" />
           </div>
 
-          <button onClick={agregarSiembra} style={styles.submitBtn}>Agregar Siembra</button>
+          <button onClick={agregarSiembra} style={{ backgroundColor: '#43a047', color: 'white', padding: '10px', width: '100%', border: 'none', borderRadius: '4px' }}>Agregar Siembra</button>
         </div>
       )}
 
-      <h2 style={styles.siembrasHeader}>Siembras Programadas</h2>
-      <ul style={styles.siembrasList}>
-        {siembras.map((siembra, index) => (
-          <li key={index} style={styles.siembraItem}>
-            <button onClick={() => eliminarSiembra(index)} style={styles.deleteBtn}>Eliminar</button>
-            <div>
-              <strong>{siembra.producto} - {siembra.terreno}</strong><br />
-              {siembra.fechaInicio} - {siembra.fechaFin}
+      <h2 style={{ color: '#2e7d32' }}>Siembras Programadas</h2>
+      {siembras.map((siembra, index) => (
+        <div key={index} style={{ backgroundColor: '#fff', padding: '10px', borderRadius: '4px', marginBottom: '15px' }}>
+          <strong>{siembra.producto} - {siembra.terreno}</strong><br />
+          {siembra.fechaInicio} a {siembra.fechaFin}<br />
+          🌱 Siembra: {siembra.siembra} | 🌾 Cosecha: {siembra.cosecha} | ☀️ Época: {siembra.epocaIdeal}<br />
 
-              <div style={styles.controlList}>
-                <strong>Controles:</strong>
-                <ul>
-                  {siembra.controles.map((control, i) => (
-                    <li key={i}>📋 {control.tipo} - {control.fecha}</li>
-                  ))}
-                </ul>
-                <input
-                  type="text"
-                  placeholder="Tipo de control (ej. Riego)"
-                  value={index === siembras.length - 1 ? nuevoControl : ""}
-                  onChange={(e) => setNuevoControl(e.target.value)}
-                  style={{ ...styles.inputField, marginBottom: '10px' }}
-                />
-                <DatePicker
-                  selected={index === siembras.length - 1 ? fechaControl : null}
-                  onChange={(date) => setFechaControl(date)}
-                  dateFormat="dd/MM/yyyy"
-                  placeholderText="Fecha del control"
-                  className="input-field"
-                />
-                <button
-                  onClick={() => agregarControl(index)}
-                  style={{ ...styles.submitBtn, marginTop: '10px', backgroundColor: '#558b2f' }}
-                >
-                  Agregar Control
-                </button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+          <ul>
+            {siembra.controles.map((c, i) => <li key={i}>📋 {c.tipo} - {c.fecha}</li>)}
+          </ul>
+
+          <button onClick={() => eliminarSiembra(index)} style={{ backgroundColor: '#d32f2f', color: 'white', marginRight: '10px', border: 'none', padding: '6px', borderRadius: '4px' }}>Eliminar</button>
+          <button onClick={() => terminarCosecha(index)} style={{ backgroundColor: '#00796b', color: 'white', border: 'none', padding: '6px', borderRadius: '4px' }}>Terminar Cosecha</button>
+        </div>
+      ))}
+
+      <h2 style={{ color: '#2e7d32' }}>Control de Lotes</h2>
+      {lotes.map((lote, i) => (
+        <div key={i} style={{ backgroundColor: '#e8f5e9', padding: '10px', borderRadius: '4px', marginBottom: '10px' }}>
+          <strong>{lote.producto} - {lote.terreno}</strong><br />
+          🆔 Lote: {lote.loteId} | Calidad: {lote.calidad} | Comprador: {lote.comprador}<br />
+          🌱 Siembra: {lote.siembra} | 🌾 Cosecha: {lote.cosecha} | ☀️ Época: {lote.epocaIdeal}
+        </div>
+      ))}
     </div>
   );
 };
